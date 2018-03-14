@@ -27,6 +27,7 @@ public class View extends JPanel {
 	public View(Model model) {
 		this.model = model;
 
+
 		cpuPlayerImage = loadImage("cpuPlayer");
 		humanPlayerImage = loadImage("humanPlayer");
 
@@ -51,35 +52,32 @@ public class View extends JPanel {
 	}
 
 
-
 	// Método para desenhar a interface gráfica do jogo. A ideia é
 	// que o parâmetro g pode ser usado como o pincel de desenho.
 	@Override
 	public void paintComponent(Graphics g) {
-		// Define a cor do pincel como branco.
-		g.setColor(Color.WHITE);
-
-		// Pinta um retângulo do tamanho da tela inteira.
-		g.fillRect(0, 0, model.getBoard().getNumCols() * CELL_SIZE, model.getBoard().getNumRows() * CELL_SIZE);
-
-		//IMPRIME PAREDE
-		g.setColor(Color.BLACK);
-		for(int i=0;i<model.getBoard().getNumRows();i++){
-			for(int j=0;j<model.getBoard().getNumCols();j++){
-				if(model.getBoard().isWall(i,j)){
-					g.fillRect(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+		for(int i = 0; i < model.getBoard().getNumRows(); i++) {
+			for(int j = 0; j < model.getBoard().getNumCols(); j++) {
+				if(model.getBoard().isWall(i, j)) {
+					// Define a cor do pincel como preto.
+					g.setColor(Color.BLACK);
 				}
+				else {
+					// Define a cor do pincel como branco.
+					g.setColor(Color.WHITE);
+				}
+
+				// Pinta um retângulo na posição e tamanho da célula.
+				g.fillRect(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 			}
 		}
-				
+
 		// Pinta as imagens dos jogadores.
 		drawImage(g, cpuPlayerImage, model.getCpuPlayer());
 		drawImage(g, humanPlayerImage, model.getHumanPlayer());
+		
 
 		// Evita bugs visuais em alguns sistemas operacionais.
 		getToolkit().sync();
-		
-
-	}
-	
+    }
 }
